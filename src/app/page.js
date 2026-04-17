@@ -12,7 +12,7 @@ const LESSONS = [
   { name: "Lesson #05", flashcards: "/lesson-05/flashcards", quiz: "/lesson-05/quiz" },
   { name: "Lesson #06", flashcards: "/lesson-06/flashcards", quiz: "/lesson-06/quiz" },
   { name: "Lesson #07", flashcards: "/lesson-07/flashcards", quiz: "/lesson-07/quiz" },
-  { name: "Lesson #07 Strat + OTE", flashcards: "/lesson-07-strat-ote/flashcards", quiz: "/lesson-07-strat-ote/quiz" },
+  { name: "Lesson #07B", flashcards: "/lesson-07-strat-ote/flashcards", quiz: "/lesson-07-strat-ote/quiz" },
   { name: "Lesson #08", flashcards: "/lesson-08/flashcards", quiz: "/lesson-08/quiz" },
   { name: "Lesson #09", flashcards: "/lesson-09/flashcards", quiz: "/lesson-09/quiz" },
   { name: "Lesson #10", flashcards: "/lesson-10/flashcards", quiz: "/lesson-10/quiz" },

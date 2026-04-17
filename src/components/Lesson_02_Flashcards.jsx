@@ -51,17 +51,25 @@ export default function Flashcards() {
     if (status === "known") {
       setKnown(prev => new Set([...prev, id]));
       setReviewing(prev => { const n = new Set(prev); n.delete(id); return n; });
+      setAnimDir("right");
+      setTimeout(() => {
+        setFlipped(false);
+        setAnimDir(null);
+        setDeck(prev => { const nd = [...prev]; nd.splice(idx, 1); return nd.length ? nd : prev; });
+        setIdx(i => i >= deck.length - 1 ? 0 : i);
+      }, 250);
     } else {
       setReviewing(prev => new Set([...prev, id]));
       setKnown(prev => { const n = new Set(prev); n.delete(id); return n; });
+      setAnimDir("left");
+      setTimeout(() => {
+        setFlipped(false);
+        setAnimDir(null);
+        setDeck(prev => { const nd = [...prev]; const card = nd.splice(idx, 1)[0]; nd.push(card); return nd; });
+        setIdx(i => i >= deck.length - 1 ? 0 : i);
+      }, 250);
     }
-    setAnimDir(status === "known" ? "right" : "left");
-    setTimeout(() => {
-      setFlipped(false);
-      setAnimDir(null);
-      setIdx(i => (i + 1) % total);
-    }, 250);
-  }, [deck, idx, total]);
+  }, [deck, idx]);
 
   const shuffle = useCallback(() => {
     const shuffled = [...CARDS].sort(() => Math.random() - 0.5);

@@ -41,11 +41,16 @@ export default function Flashcards() {
   const flip = useCallback(() => setFlipped(f => !f), []);
   const next = useCallback((status) => {
     const id = deck[idx].front;
-    if (status === "known") { setKnown(p => new Set([...p, id])); setReviewing(p => { const n = new Set(p); n.delete(id); return n; }); }
-    else { setReviewing(p => new Set([...p, id])); setKnown(p => { const n = new Set(p); n.delete(id); return n; }); }
-    setAnimDir(status === "known" ? "right" : "left");
-    setTimeout(() => { setFlipped(false); setAnimDir(null); setIdx(i => (i + 1) % total); }, 250);
-  }, [deck, idx, total]);
+    if (status === "known") {
+      setKnown(p => new Set([...p, id])); setReviewing(p => { const n = new Set(p); n.delete(id); return n; });
+      setAnimDir("right");
+      setTimeout(() => { setFlipped(false); setAnimDir(null); setDeck(prev => { const nd = [...prev]; nd.splice(idx, 1); return nd.length ? nd : prev; }); setIdx(i => i >= deck.length - 1 ? 0 : i); }, 250);
+    } else {
+      setReviewing(p => new Set([...p, id])); setKnown(p => { const n = new Set(p); n.delete(id); return n; });
+      setAnimDir("left");
+      setTimeout(() => { setFlipped(false); setAnimDir(null); setDeck(prev => { const nd = [...prev]; const card = nd.splice(idx, 1)[0]; nd.push(card); return nd; }); setIdx(i => i >= deck.length - 1 ? 0 : i); }, 250);
+    }
+  }, [deck, idx]);
   const shuffle = useCallback(() => { setDeck([...CARDS].sort(() => Math.random() - 0.5)); setIdx(0); setFlipped(false); setKnown(new Set()); setReviewing(new Set()); }, []);
   const reset = useCallback(() => { setDeck([...CARDS]); setIdx(0); setFlipped(false); setKnown(new Set()); setReviewing(new Set()); }, []);
 
